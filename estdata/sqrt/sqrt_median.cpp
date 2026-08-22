@@ -14,7 +14,6 @@ struct Sqrt {
 		blocks.resize(nblocks);
 		for (int b = 0; b < nblocks; b++) { rebuild_block(b); }
 	}
-
 	void rebuild_block(int b_idx) {
 		blocks[b_idx].clear();
 		blocks[b_idx].reserve(B + 1);
@@ -25,7 +24,6 @@ struct Sqrt {
 		for (int i = start; i < end; i++) { blocks[b_idx].push_back(data[i]); }
 		sort(all(blocks[b_idx]));
 	}
-
 	void update(int l, int r, ll x) {
 		int start_block = l / B;
 		int end_block = r / B;

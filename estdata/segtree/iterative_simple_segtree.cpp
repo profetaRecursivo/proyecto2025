@@ -1,27 +1,24 @@
-const int tam = POTENCIA DE DOS;//no probado
+const int tam = 2^logn
 struct Node {
-	//atributos
-	Node(/*parametros*/) {
-		
-	}
-	static inline Node merge(const Node& a, const Node& b) {
-		
-	}
-};
+	Node() {}
+	static inline Node merge(const Node& a, const Node& b) {}
+};//todo indexado a cero
 int n;
 Node t[2 * tam];
-
 void build() {
 	for (int i = n - 1; i > 0; --i) {
 		t[i] = Node::merge(t[i << 1], t[(i << 1) | 1]);
 	}
 }
-
 void update(int p, Node value) {
-	for (t[p += n] = value; p > 1; p >>= 1)
-		t[p >> 1] = Node::merge(t[(p >> 1) << 1], t[((p >> 1) << 1) | 1]);
+    for (t[p += n] = value; p > 1; p >>= 1) {
+        if (p & 1) {
+            t[p >> 1] = Node::merge(t[p ^ 1], t[p]);
+        } else {
+            t[p >> 1] = Node::merge(t[p], t[p ^ 1]);
+        }
+    }
 }
-
 Node query(int l, int r) {
 	r++;
 	Node izq, der;

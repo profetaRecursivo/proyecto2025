@@ -6,8 +6,6 @@ struct Nodo {
         return *this;
     }
 };
-
-
 struct Sqrt {
     int n, raiz;
     vector<Nodo> a;

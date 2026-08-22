@@ -11,7 +11,6 @@ vector<char> segmentedSieve(ll L, ll R) {
                 mark[j] = true;
         }
     }
-
     vector<char> isPrime(R - L + 1, true);
     for (ll i : primes)
         for (ll j = max(i * i, (L + i - 1) / i * i); j <= R; j += i)

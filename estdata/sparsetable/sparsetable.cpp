@@ -1,8 +1,6 @@
 const int MAXN = 1e6;
 const int K = 21 + 1;// deberia de ser el logaritmo de MAXN
-
 int st[K + 1][MAXN];
-
 int f(int a, int b){
     return min(a, b);
 }

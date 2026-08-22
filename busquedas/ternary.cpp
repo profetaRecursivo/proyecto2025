@@ -1,9 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-double f(int x) {
-    // Ejemplo: una parábola con máximo en x = 3
-    return -(x - 3) * (x - 3) + 10;
-}
+double f(int x) {}
 int main() {
     int l = -10, r = 10; // rango de búsqueda
     while (r - l >= 3) { // mientras quede más de 2 elementos

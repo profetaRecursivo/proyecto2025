@@ -4,11 +4,11 @@ struct inter_set {
         auto it = inter.upper_bound({left, INF}); 
         if (it != inter.begin()) {
             it--;
-            if (it->second < left) {
+            if (it->second < left/*-1*/) {//para [1 2] [3 4] -> [1 4]
                 it++;
             }
         }
-        while (it != inter.end() and it->first <= right) {
+        while (it != inter.end() and it->first <= right/*+1*/) {
             left = min(left, it->first);
             right = max(right, it->second);
             it = inter.erase(it);

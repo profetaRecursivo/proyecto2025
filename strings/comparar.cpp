@@ -1,4 +1,3 @@
-
 bool menor(string& a, bool inva, string& b, bool invb) {
 	int n1 = sz(a);
 	int n2 = sz(b);

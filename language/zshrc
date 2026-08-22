@@ -1,5 +1,0 @@
-//Solo ejecucion, impresion por STDOUT
-ej() { g++ -o ejec "$1" && ./ejec < in }
-
-//Simulacion de un cph
-gcom() { g++ -o ejec "$1" && ./ejec < in > output && (diff -w output out && echo "Correcto"); }

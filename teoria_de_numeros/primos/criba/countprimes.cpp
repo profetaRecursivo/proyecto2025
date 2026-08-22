@@ -2,7 +2,6 @@ int count_primes(int n) {
     //S deslizable, a mayor S menor tiempo mas memoria
     //a menor S menos memoria mas tiempo
     const int S = 10000;
-
     vi primes;
     int nsqrt = sqrt(n);
     vector<char> is_prime(nsqrt + 2, true);
@@ -13,7 +12,6 @@ int count_primes(int n) {
                 is_prime[j] = false;
         }
     }
-
     int result = 0;
     vector<char> block(S);
     for (int k = 0; k * S <= n; k++) {

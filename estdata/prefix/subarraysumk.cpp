@@ -1,4 +1,3 @@
-
 int subsum(vector<ll>& arr, ll x) {
     map<ll, int> freq;
     ll pref = 0, count = 0;

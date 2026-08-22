@@ -1,2 +1,0 @@
---Hay gcd desde c++ 17
---liberar memoria del vector: std::vector<int>().swap(v); siendo v el vector que queremos eliminar completamente

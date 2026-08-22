@@ -1,91 +1,104 @@
-const ll INF = 4e18;
-const int MAX_NODES = 7048237;
+#include <bits/stdc++.h>
+using namespace std;
 
-struct Info {
-    ll sum;
-    Info(ll s = 0) : sum(s) {}
-};
+typedef long long ll;
 
-struct Tag {
-    ll add;
-    Tag(ll a = 0) : add(a) {}
-    bool has_lazy() const { return add != 0; }
-};
-
-Info merge_info(const Info& a, const Info& b) {
-    return Info(a.sum + b.sum);
-}
-
-void apply_tag(Info& node_info, const Tag& tag, ll len) {
-    node_info.sum += tag.add * len; 
-}
-
-void compose_tag(Tag& old_tag, const Tag& new_tag) {
-    old_tag.add += new_tag.add;
-}
+const int MAXNODES = 4000000; // q * log(maxVal)
 
 struct Node {
-    Info info;
-    Tag tag;
-    int left = -1;
-    int right = -1;
-} tree[MAX_NODES];
+    ll val;
+    Node() : val(0) {}
+    Node(ll v) : val(v) {}
+};
 
-int nodes_cnt = 0;
-
-int new_node() {
-    int id = ++nodes_cnt;
-    tree[id].left = -1;
-    tree[id].right = -1;
-    tree[id].info = Info();
-    tree[id].tag = Tag();
-    return id;
+Node op(Node a, Node b) {
+    return Node(a.val + b.val);
 }
 
-void clear_tree() { nodes_cnt = 0; }
-
-void apply(int u, const Tag& t, ll len) {
-    apply_tag(tree[u].info, t, len);
-    compose_tag(tree[u].tag, t);
+Node merge(Node a, Node b) {
+    return op(a, b);
 }
 
-void push(int u, ll s, ll e) {
-    if (!tree[u].tag.has_lazy()) return;
-    ll mid = s + (e - s) / 2;
-    if (tree[u].left == -1) tree[u].left = new_node();
-    if (tree[u].right == -1) tree[u].right = new_node();
-    apply(tree[u].left, tree[u].tag, mid - s + 1);
-    apply(tree[u].right, tree[u].tag, e - mid);
-    tree[u].tag = Tag(); 
+Node tr[MAXNODES];
+ll lazy_[MAXNODES];
+bool hasLazy[MAXNODES];
+int lc[MAXNODES], rc[MAXNODES];
+int cnt = 1;
+
+int newNode() {
+    cnt++;
+    lc[cnt] = 0;
+    rc[cnt] = 0;
+    tr[cnt] = Node();
+    hasLazy[cnt] = false;
+    return cnt;
 }
 
-void pull(int u) {
-    Info l = (tree[u].left == -1) ? Info() : tree[tree[u].left].info;
-    Info r = (tree[u].right == -1) ? Info() : tree[tree[u].right].info;
-    tree[u].info = merge_info(l, r);
+void ensureChildren(int node) {
+    if (!lc[node]) lc[node] = newNode();
+    if (!rc[node]) rc[node] = newNode();
 }
 
-void update(int &u, ll s, ll e, ll l, ll r, const Tag& val) {
-    if (u == -1) u = new_node();
-    if (s >= l and e <= r) {
-        apply(u, val, e - s + 1);
+void push_ass(int node, ll b, ll e) {
+    if (!hasLazy[node]) return;
+
+    if (b == e) {
+        hasLazy[node] = false;
         return;
     }
-    push(u, s, e);   
-    ll mid = s + (e - s) / 2;
-    if (mid >= l) update(tree[u].left, s, mid, l, r, val);
-    if (mid < r)  update(tree[u].right, mid + 1, e, l, r, val);
-    pull(u);
+
+    ensureChildren(node);
+    for (int hijo : {lc[node], rc[node]}) {
+        tr[hijo] = Node(lazy_[node]);
+        lazy_[hijo] = lazy_[node];
+        hasLazy[hijo] = true;
+    }
+
+    hasLazy[node] = false;
 }
-Info query(int u, ll s, ll e, ll l, ll r) {
-    if (u == -1 or s > r or e < l) return Info(); 
-    
-    if (s >= l and e <= r) return tree[u].info;
-    
-    push(u, s, e);
-    
-    ll mid = s + (e - s) / 2;
-    return merge_info(query(tree[u].left, s, mid, l, r),
-                      query(tree[u].right, mid + 1, e, l, r));
+
+void update(int node, ll b, ll e, ll i, ll j, ll val) {
+    if (i <= b && e <= j) {
+        tr[node] = Node(val);
+        lazy_[node] = val;
+        hasLazy[node] = true;
+        return;
+    }
+
+    push_ass(node, b, e); // ya crea los hijos internamente si hace falta
+
+    ll mid = b + (e - b) / 2;
+    if (j <= mid) update(lc[node], b, mid, i, j, val);
+    else if (i > mid) update(rc[node], mid+1, e, i, j, val);
+    else {
+        update(lc[node], b, mid, i, j, val);
+        update(rc[node], mid+1, e, i, j, val);
+    }
+
+    tr[node] = merge(tr[lc[node]], tr[rc[node]]);
 }
-int root = -1;
+
+Node query(int node, ll b, ll e, ll i, ll j) {
+    if (i <= b && e <= j) return tr[node];
+
+    push_ass(node, b, e);
+
+    ll mid = b + (e - b) / 2;
+    if (j <= mid) return query(lc[node], b, mid, i, j);
+    if (i > mid) return query(rc[node], mid+1, e, i, j);
+    return merge(query(lc[node], b, mid, i, j), query(rc[node], mid+1, e, i, j));
+}
+
+int main() {
+    ll LO = 0, HI = 1000000000000000000LL;
+    int root = 1;
+    tr[root] = Node();
+    hasLazy[root] = false;
+    lc[root] = rc[root] = 0;
+
+    // ejemplo:
+    // update(root, LO, HI, i, j, val);
+    // query(root, LO, HI, i, j).val;
+
+    return 0;
+}

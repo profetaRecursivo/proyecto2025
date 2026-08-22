@@ -1,7 +1,6 @@
 deque<pair<int, int>> q;
 int insertados = 0;
 int eliminados = 0;
-
 //si queremos el maximo cambiamos la condicion del > por <
 void push(int x) {
 	while (!q.empty() and q.back().first > x) q.pop_back();
@@ -15,3 +14,4 @@ void pop() {
 int min_top(){
     return q.front().first;
 }
+//tiene el minimo o max elemento de una ventana

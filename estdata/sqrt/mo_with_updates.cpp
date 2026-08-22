@@ -3,43 +3,33 @@ struct Mo {
     int n;
     vector<int> &a;
     vector<int> orig, last; 
-
     struct Query {
         int l, r, t, id;
     };
-
     struct Update {
         int idx;
         int prev, now; 
     };
-
     vector<Query> qs;
     vector<Update> up;
-
     int qcnt = 0;           
     int BLOCK;              
     int L, R, T;   
-
     ll current = 0; 
-
     Mo(vector<int> &arr) : n(sz(arr)), a(arr), orig(arr), last(arr) {
         BLOCK = max(1, (int)pow(n, 2.0/3.0));
     }
-
     void addQuery(int l, int r) {
         qs.push_back({l, r, (int)up.size(), qcnt++});
     }
-
     void addUpdate(int idx, int newVal) {
         int prevVal = last[idx];
         up.push_back({idx, prevVal, newVal});
         last[idx] = newVal;
     }
-
     inline void add(int idx) {
         current+=a[idx];
     }
-
     inline void remove(int idx) {
         current-=a[idx];
     }
@@ -54,7 +44,6 @@ struct Mo {
             a[idx] = u.now;
         }
     }
-
     void rollbackUpdate(int k) {
         auto &u = up[k];
         int idx = u.idx;
@@ -66,7 +55,6 @@ struct Mo {
             a[idx] = u.prev;
         }
     }
-
     vector<ll> process() {
         if (qs.empty()) return {};
         a = orig;
