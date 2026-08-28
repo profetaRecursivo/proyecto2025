@@ -1,8 +1,7 @@
-// You are given a sequence of n integers a1,a2,…,an
-// Your task is to answer q queries:
-// Choose several numbers from a1,a2,…,an such that their bitwise XOR is x
-// If their are multiple solutions, print any of them.
-// It's guaranteed that at least one solution exists for each query.
+/*dado arreglo de n elementos responde queries del tipo 
+que subset tiene como xor = x?
+n=sz, b = 61 la base complejidad:
+n^2*b/64 + q*(n^2*b/64)*/
 const int tam = 61;
 const int sz = 500;
 void solve() {
@@ -10,8 +9,7 @@ void solve() {
 	cin >> n;
 	vector<pair<int, bitset<sz>>> basis(tam, {0, -1});
 	for (int i = 0; i < n; i++) {
-		int x;
-		cin >> x;
+		int x;cin >> x;
 		bitset<sz> bs;
 		bs[i] = 1;
 		for (int j = tam - 1; j >= 0; j--) {
@@ -26,8 +24,7 @@ void solve() {
 		}
 	}
 	while (q--) {
-		int x;
-		cin >> x;
+		int x;cin>>x;
 		bitset<sz> bs;
 		for (int i = tam - 1; i >= 0; i--) {
 			if (x & (1LL << i)) {

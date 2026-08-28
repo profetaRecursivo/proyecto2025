@@ -1,20 +1,21 @@
-// ksimo mas grande generado por la base
-vector<ull> B;
+// ksimo mas pequeno
+vector<ull> basis;
 void insertBasis(ull x) {
-	for (ull b : B) x = min(x, x ^ b);
+	for (ull b : basis) x = min(x, x ^ b);
 	if (!x) return;
-	for (ull &b : B) b = min(b, b ^ x);
-	B.push_back(x);
-	sort(B.begin(), B.end());
+	for (ull &b : basis) b = min(b, b ^ x);
+	basis.push_back(x);
+	sort(basis.begin(), basis.end());
 }
 int main() {  // con la base actual  cual es el ksimo mas grande?
 	int x;
 	cin >> x;
 	ull k = x;
 	if (k > (1ULL << sz(basis))) {
-		cout << "-1\n";
-		continue;
+		cout << "-1\n";return 0;
+		// continue;
 	}
+    //para grande k = 2^basis - k + 1
 	k--;  // convertir a 0-index
 	ull res = 0;
 	for (int i = 0; i < sz(basis); i++) {

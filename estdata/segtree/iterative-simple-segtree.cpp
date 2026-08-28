@@ -1,4 +1,4 @@
-const int tam = 2^logn
+const int tam = bit_ceil((ull)n);
 struct Node {
 	Node() {}
 	static inline Node merge(const Node& a, const Node& b) {}
@@ -28,3 +28,4 @@ Node query(int l, int r) {
 	}
 	return Node::merge(izq, der);
 }
+//debes recibir el arreglo desde t[n] hasta t[2*n-1]

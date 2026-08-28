@@ -1,18 +1,5 @@
-You are given an empty sequence a
-. Your task is to process q
- queries of the following types:
-
-1. Append x
- to the end of sequence a
-;
-
-2. Consider all 2k
- possible subsequences of a
-, where k
- represents the current length of a
-. Among these subsequences, determine how many have a bitwise XOR value equal to x
-. Output the result modulo 998244353
-.
+/*cantidad de subsets que tienen como xor = x
+de manera dinamica, por eso hay queries de insersion*/
 const int tam = 61;
 int sz = 0;
 int basis[tam] = {0};

@@ -3,7 +3,7 @@
 // todos los números desde 1 hasta n
 int countSetBits(int n) {
 	int count = 0;
-	while (n > 0) {
+	while (n > 0) {//bw=log2
 		int x = std::bit_width(n) - 1;
 		count += x << (x - 1);
 		n -= 1 << x;

@@ -1,4 +1,4 @@
-//Given an array of n integers, your task is to find all integers that are the xor sum in some subarray.
+//Given an array of n integers, your task is to find all integers that are the xor sum in some subarray. nlogn
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -20,7 +20,6 @@ void fwht(vector<ull> &a, bool inv) {
     }
 }
 signed main() {
-    ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
     int n;
     cin >> n;
     vector<int> a(n);

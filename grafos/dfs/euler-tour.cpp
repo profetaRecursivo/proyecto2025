@@ -1,7 +1,7 @@
 const int tam = 1e5;
 int arr[tam], flat[tam];
 vector<int> g[tam];
-int timer = 0;
+int timer = 0;//1
 int tin[tam], tout[tam];
 void dfs(int u, int p){
     tin[u] = timer++;
@@ -10,5 +10,5 @@ void dfs(int u, int p){
         if(v == p)continue;
         dfs(v, u);
     }
-    tout[u] = timer;
+    tout[u] = timer;//-1
 }
