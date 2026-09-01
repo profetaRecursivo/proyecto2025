@@ -1,4 +1,3 @@
-bool ge(double x, double y) { return x + EPS > y; }
-bool le(double x, double y) { return x - EPS < y; }
-bool eq(double x, double y) { return ge(x, y) and le(x, y); }
-int sign(double x) { return ge(x, 0) - le(x, 0); }
+bool lt(double a, double b){return a < b - EPS;}
+bool gt(double a, double b){return b < a - EPS;}
+bool eq(double a, double b){return !lt(a, b) && !gt(a, b);}
